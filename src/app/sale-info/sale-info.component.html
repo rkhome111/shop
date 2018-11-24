@@ -1,0 +1,50 @@
+<div class="report_section">
+Start Date<input [(ngModel)]="lastDay" type="date" />
+End Date <input [(ngModel)]="today" type="date" />
+<button (click)="getUserData()">Refresh</button>
+<button (click)="downloadReport()">Download Report</button>
+</div>
+
+<table border = 1>
+  <tr>
+    <th>Cash Memo No.</th>
+    <th>E_B No.</th>
+    <th>House no</th>
+    <th>Card Holder Name</th>
+    <th>Total Aadhar</th>
+    <th>Wheat</th>
+    <th>Rice</th>
+    <th>Kerosin oil</th>
+    <th>price</th>
+    <th>Billing Month</th>
+    <th><button (click)="addData()">Add new item</button></th>
+    <th>Search<input type="text" [(ngModel)]="searchData" placeholder="Search data"/></th>
+  </tr>
+  <tr *ngFor="let userdt of userData | filter: searchData | paginate: { itemsPerPage: itemsPerPage, currentPage: pageNo }; let $index = index">
+    <td *ngIf="!userdt.edit">{{ userdt.cashMemoNo }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.ebNo }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.houseNo }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.cardHolderName }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.aadharNo }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.wheat }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.rice }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.kerosene }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.price }}</td>
+    <td *ngIf="!userdt.edit">{{ userdt.billMonth }}</td>
+    <td (click)="openEditBox(userdt, $index)" *ngIf="!userdt.edit"><button>Edit</button></td>
+    <td (click)="openDeleteBox(userdt, $index)" *ngIf="!userdt.edit"><button>Delete</button></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.cashMemoNo" type="text" value="{{userdt.cashMemoNo}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.ebNo" type="text" value="{{userdt.ebNo}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.houseNo" type="text" value="{{userdt.houseNo}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.cardHolderName" type="text" value="{{userdt.cardHolderName}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.aadharNo" type="text" value="{{userdt.aadharNo}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.wheat" type="text" value="{{userdt.wheat}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.rice" type="text" value="{{userdt.rice}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.kerosene" type="text" value="{{userdt.kerosene}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.price" type="text" value="{{userdt.price}}"/></td>
+    <td *ngIf="userdt.edit"><input [(ngModel)]="userdt.billMonth" type="month" value="{{userdt.billMonth}}"/></td>
+    <td (click)="saveEditData()" *ngIf="userdt.edit"><button>Save</button></td>
+    <td (click)="userdt.edit=false" *ngIf="userdt.edit"><button>Cancel</button></td>
+  </tr>
+</table>
+<pagination-controls (pageChange)="pageNo = $event"></pagination-controls>
